@@ -1,0 +1,47 @@
+name: EscapeGame
+main: fr.xam74er1.spigot.Main
+version: 1.0
+api-version: 1.14
+commands:
+   runSQL:
+    description: run a sql command
+   giveMasterWhant:
+    description: Utilise pour interagie de manire operateur avec le systeme
+   setCodeDoor:
+    description: Met une porte a code
+   setKeyDoor:
+    description: Met une porte a clef
+   blockInventory:
+     description: Cree un block inventaire
+   newGame:
+     description: Cree une nouvelle game
+   setGameOption:
+     description: Modifie une option a la game
+   setGameTime:
+     description: Set le temps de la game
+   GameList:
+     description: List tout les game disponible
+   loadGame:
+     description: charge une game
+   gamemanager:
+     description: manage la game en cour
+   gameStart:
+     description: lance la game
+   partyadd:
+      description: ajoute une perssone a la partie
+   party:
+      description: Gestion des partie 
+   partyremove:
+      description: remouve une perssone
+   partydisband:
+      description: suprime tout les joeur de la partie
+   startsetting :
+      description: ajout d'un parametre au lancement de la game    
+  
+permissions:
+  runSQL:
+   description: Allows foo command
+   default: op
+  gameMasters:
+   description: Allows foo command
+   default: op
