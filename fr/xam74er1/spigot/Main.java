@@ -32,6 +32,8 @@ public class Main extends JavaPlugin{
 		 this.getCommand("setCodeDoor").setExecutor(new setCodeDoor());
 		 this.getCommand("setKeyDoor").setExecutor(new setKeyDoor());
 		 this.getCommand("blockInventory").setExecutor(new cmdBlockInventory());
+		 this.getCommand("setBlockInventoryKey").setExecutor(new cmdBlockInventoryKey());
+		 this.getCommand("setBlockInventoryCode").setExecutor(new cmdBlockInventoryCode());
 		 
 		 //cmd de gestion de la game
 		 this.getCommand("newGame").setExecutor(new cmdNewGame());
@@ -134,6 +136,15 @@ public class Main extends JavaPlugin{
 	     * command /indice
 	     * 
 	     * command compatible command block
+	     * 
+	     * pour la binvKey et binvCode rajoute une commande a binv avec les option key ou code :OK
+	     * 
+	     * 
+	     * BUG : Si on set un blockInventoryKey (ou code) , puis que lon redefini un block inventory normale il est de type block inventoryKey(ou code) , cela est du a la double table a gere 
+	     * 
+	     * Pense a bien teste le /blockinventory code|key voir si il reagis bien 
+	     * 
+	     * Fair un delete des item
 	     * 
 	     */
 	    public static Game getGame() {

@@ -9,6 +9,7 @@ import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import BaseDeDonne.DAO_Game;
 import Modele.Action.ActionInGame;
@@ -29,6 +30,7 @@ public class Game {
 	HashMap<String,GamePlayer> listPlayer ;
 	HashMap<String,GamePlayer> listParty ;
 	ArrayList<ActionInGame> listAction = new ArrayList<ActionInGame>();
+	ArrayList<BlockInventory> listInventory = new ArrayList<BlockInventory>();
 
 	CronoMetre crono = null;
 
@@ -333,7 +335,32 @@ public class Game {
 		}
 	}
 
-	//////////////////////////////////////////////
+	//////////////////////Gestion des inventaire ////////////////////////
+	
+	//Le but est de trouve si un inv existe deja pour recupere son inventaire 
+	public BlockInventory findOrAdd(BlockInventory binv) {
+		BlockInventory tmp =null;
+		
+		//On les parcoure tous et on vois si il est identique (meme id)
+		for(BlockInventory bi : listInventory) {
+			if(bi.getId()==binv.getId()) {
+				tmp = bi;
+				break;
+			}
+		}
+		
+		if(tmp==null) {
+			listInventory.add(binv);
+			return binv;
+		}
+		return tmp;
+		
+	}
+	
+	
+	
+	
+	////////////////////////////////////////////
 
 	public boolean isInDev() {
 		return inDev;
@@ -444,6 +471,14 @@ public class Game {
 
 	public void setListAction(ArrayList<ActionInGame> listAction) {
 		this.listAction = listAction;
+	}
+
+	public ArrayList<BlockInventory> getListInventory() {
+		return listInventory;
+	}
+
+	public void setListInventory(ArrayList<BlockInventory> listInventory) {
+		this.listInventory = listInventory;
 	}
 
 

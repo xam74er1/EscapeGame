@@ -7,21 +7,22 @@ import java.sql.SQLException;
 import org.bukkit.inventory.Inventory;
 
 import Modele.BlockInventory;
-import Modele.BlockInventoryKey;
+import Modele.BlockInventoryCode;
 import Utils.EG_Exception;
 import Utils.Log;
 
-public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
+public class DAO_BlockInventoryCode extends  DAO_BlockInventory{
 	
-	public static String requetteCreate = "CREATE TABLE IF NOT EXISTS BlockInventoryKey ("
+	public static String requetteCreate = "CREATE TABLE IF NOT EXISTS BlockInventoryCode ("
 			+ "	id integer PRIMARY KEY,"
-			+" key TEXT,"
+			+" code_juste TEXT,"
+			+" code_actuelle TEXT,"
 			+"isOppen boolean,"
 			+"FOREIGN KEY (id) REFERENCES blockInventory(id)"
 			+ ");";
 
 
-	String tableName = "BlockInventoryKey";
+	String tableName = "BlockInventoryCode";
 
 
 
@@ -31,9 +32,9 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 		//int id = getMaxID(super.tableName)+1;
 	//	super.insert(obj);
 		
-		BlockInventoryKey bik = (BlockInventoryKey) obj;
+		BlockInventoryCode bic = (BlockInventoryCode) obj;
 		
-		return exeUpdate("INSERT INTO "+tableName+" VALUES ("+obj.getId()+",\""+bik.getKeyName()+"\","+bik.isOppen()+");"
+		return exeUpdate("INSERT INTO "+tableName+" VALUES ("+obj.getId()+",\""+bic.getCode_juste()+"\",\""+bic.getCode_Actuelle()+"\","+bic.isOppen()+");"
 				);
 	}
 
@@ -47,12 +48,12 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 	public int update(BlockInventory obj) {
 		// TODO Auto-generated method stub
 		try {
-			BlockInventoryKey bik = (BlockInventoryKey) obj;
+			BlockInventoryCode bic = (BlockInventoryCode) obj;
 
 	
 
 		
-			int nb = exeUpdate("UPDATE "+tableName+" SET key= \""+bik.getKeyName()+"\",isOppen = "+bik.isOppen()+""
+			int nb = exeUpdate("UPDATE "+tableName+" SET code_juste= \""+bic.getCode_juste()+"\",code_actuelle=\""+bic.getCode_Actuelle()+"\",isOppen = "+bic.isOppen()+""
 					+ " WHERE id = "+obj.getId());
 
 			Log.print(nb+"Ligne mise a jour");
@@ -67,7 +68,7 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 	}
 
 	
-	public BlockInventoryKey find(int id) {
+	public BlockInventoryCode find(int id) {
 		// TODO Auto-generated method stub
 		BlockInventory biv = super.find(id);
 		if(biv==null) return null;
@@ -79,9 +80,9 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 
 			try {
 				
-				BlockInventoryKey bik = new BlockInventoryKey(biv,rs.getString("key"),rs.getBoolean("isOppen"));
+				BlockInventoryCode bic = new BlockInventoryCode(biv,rs.getString("code_actuelle"),rs.getString("code_juste"),rs.getBoolean("isOppen"));
 				rs.close();
-				return bik;
+				return bic;
 			} catch (EG_Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,7 +98,7 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 		return null;
 	}
 	
-	public BlockInventoryKey find(BlockInventory biv) {
+	public BlockInventoryCode find(BlockInventory biv) {
 	
 		if(biv==null) 
 			return null;
@@ -111,9 +112,9 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 
 			try {
 				
-				BlockInventoryKey bik = new BlockInventoryKey(biv,rs.getString("key"),rs.getBoolean("isOppen"));
+				BlockInventoryCode bic = new BlockInventoryCode(biv,rs.getString("code_actuelle"),rs.getString("code_juste"),rs.getBoolean("isOppen"));
 				rs.close();
-				return bik;
+				return bic;
 			} catch (EG_Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

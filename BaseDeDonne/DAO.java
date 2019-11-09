@@ -84,6 +84,8 @@ public abstract class DAO<T> {
 			stmt.execute(DAO_PorteAClef.requetteCreate);
 			stmt.execute(DAO_BlockInventory.requetteCreate);
 			stmt.execute(DAO_Game.requetteCreate);
+			stmt.execute(DAO_BlockInventoryKey.requetteCreate);
+			stmt.execute(DAO_BlockInventoryCode.requetteCreate);
 			stmt.close();
 			Log.print("All database has been inisilized");
 		} catch (SQLException e) {

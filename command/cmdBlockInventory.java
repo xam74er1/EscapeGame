@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import Modele.BlockInventory;
+import Modele.BlockInventoryCode;
 import Modele.GamePlayer;
 import Modele.PorteACode;
 import Utils.EG_Exception;
@@ -22,6 +23,11 @@ public class cmdBlockInventory implements CommandExecutor {
 
 	@Override
 	public boolean  onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		return action(sender,cmd,label,args);
+	}
+	
+	public static boolean action(CommandSender sender, Command cmd, String label, String[] args) {
+
 		
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
@@ -43,26 +49,17 @@ public class cmdBlockInventory implements CommandExecutor {
 							help(p);
 						
 					}else if(args.length>1){
+						String[] otherArg = new String[args.length-1];
+						
+						for(int i = 1;i<args.length;i++) {
+							otherArg[i-1] = args[i];
+						}
+						
 						if(args[0].equalsIgnoreCase("code")) {
 							
-
-							String CodeAcutelle ="";
-							if(args.length<3) {
-								CodeAcutelle += (int) 9999*Math.random();
-							}else {
-								CodeAcutelle = args[2];
-							}
-							
-							String codeJuste = args[1];
-							
+							cmdBlockInventoryCode.action(sender, cmd, label, otherArg);
 						}else if(args[0].equalsIgnoreCase("key")) {
-							
-							String keyName ="";
-							for(int i = 1;i<args.length;i++) {
-								keyName+=args[i]+" ";
-							}
-							keyName = keyName.trim();
-							
+							cmdBlockInventoryKey.action(sender, cmd, label, otherArg);
 						}else {
 							help(p);
 						}
@@ -76,13 +73,14 @@ public class cmdBlockInventory implements CommandExecutor {
 		}
 		return false;
 		
+	
 	}
 
-	public void printError(Player p,String msg) {
+	public static void printError(Player p,String msg) {
 		p.sendMessage(ChatColor.RED+msg);
 	}
 	
-	public void help(Player p) {
+	public static void help(Player p) {
 		String msg = "/BlockInventory : Ouvre un inventire quand on clique sur un block \n"
 				+ "/BlockInventory code code_juste {code_actuelle} : Montre un code pour ouvrir l'iventaire \n"
 				+ "/BlockInventory key key_name : Clique sur un bloque avec la clef pour ouvrir l'inventaire "

@@ -77,7 +77,7 @@ public class CodeGUI implements InventoryHolder{
 		String code_Juste = code.getCode_juste();
 		
 		//On verifie que le code actuelle nest pas plus grand que le code juste
-		Log.print("actuale code size "+actuel_code.length()+" code juste size "+code_Juste.length());
+		Log.print("actuale code size "+actuel_code.length()+" code juste size "+code_Juste.length()+" code actuelle "+actuel_code+" code juste "+code_Juste);
 		if(actuel_code.length()>code_Juste.length()) {
 		
 			actuel_code ="";
@@ -167,7 +167,7 @@ public class CodeGUI implements InventoryHolder{
 					String name = it.getItemMeta().getDisplayName();
 					int indexSlot = e.getSlot();
 					GamePlayer gp = Main.getGame().getPlayer(p.getName());
-					//On recure la paorte a code
+					//On recure lobject a code 
 					Ellement el = gp.getEllement();
 
 					//Si cela nest pas une porte a code qui est selectione 
@@ -189,23 +189,15 @@ public class CodeGUI implements InventoryHolder{
 
 					}else if(name.equalsIgnoreCase(HeadList.VALIDER.getName())) {
 						if(pac.code_corect()) {
-							p.sendMessage(ChatColor.GREEN+"La porte est ouverte");
 							p.closeInventory();
+							pac.action_if_correct(p);
+							
 						}else {
 
-							p.sendMessage(ChatColor.RED+"Le code est incorecte");
+							pac.action_if_not_corect(p);
 						}
 
-						//Dans tout les cas on ouvre 
-						if(gp.getSelectBlock().getType()==Material.IRON_DOOR) {
-							pac.setB(gp.getSelectBlock());
-						}else {
-							EG_Loccation loc = pac.getLoc();
-							Block b = p.getWorld().getBlockAt(loc.getX(),loc.getY(),loc.getZ());
-							pac.setB(b);
-						}
-
-						pac.setOppen(pac.code_corect());
+				
 					}
 
 				}

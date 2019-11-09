@@ -1,6 +1,7 @@
 package Modele;
 
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import Utils.EG_Exception;
 
@@ -22,9 +23,12 @@ public interface CodeInterface {
 	public void setLoc(EG_Loccation loc);
 	
 	public void setOppen(boolean isOppen);
-	public void getOppen();
+	public boolean isOppen();
 	
 	public boolean code_corect();
+	
+	public void action_if_correct(Player p);
+	public void action_if_not_corect(Player p);
 	
 
 }

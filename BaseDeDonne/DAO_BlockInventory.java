@@ -40,7 +40,7 @@ public class DAO_BlockInventory extends DAO<BlockInventory>{
 	public int insert(BlockInventory obj) throws Exception {
 		// TODO Auto-generated method stub
 
-
+		Log.print("inser binv");
 
 		Inventory inv = obj.getInv();
 

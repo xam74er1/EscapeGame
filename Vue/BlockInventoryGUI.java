@@ -21,8 +21,13 @@ import fr.xam74er1.spigot.Main;
 public class BlockInventoryGUI {
 
 	public BlockInventoryGUI(Player p,BlockInventory binv) {
+		Log.print("BlockInventoryGUI");
+		//On recupere parmis tt les inventaire qui existe linventory en cour 
+		//cela evite de duplique les object et permet de connecte les inventaire entre eux 
+		BlockInventory enCour = Main.getGame().findOrAdd(binv);
 		// TODO Auto-generated constructor stub
-		p.openInventory(binv.getInventory());
+		Log.print("Ouverture de bliock inventory GUI pour le block d'id "+enCour.getId());
+		p.openInventory(enCour.getInventory());
 	}
 
 	public static void onInventoryClick(InventoryClickEvent e) throws EG_Exception {
@@ -42,7 +47,8 @@ public class BlockInventoryGUI {
 			throw new EG_Exception("Ce nest pas un block inventaire");
 		}
 
-		BlockInventory binv = (BlockInventory) el;
+		//On recupere le block inventory en question 
+		BlockInventory binv = Main.getGame().findOrAdd((BlockInventory) el);
 
 
 		ItemStack it = e.getCurrentItem();
@@ -105,6 +111,7 @@ public class BlockInventoryGUI {
 
 		Update(binv.getInv(),p);
 
+		
 
 
 
@@ -117,10 +124,11 @@ public class BlockInventoryGUI {
 
 		if(list.size()>1) {
 			for(HumanEntity he: list) {
-					if(!he.getName().equalsIgnoreCase(p.getName())) {
+			
+		
 						he.closeInventory();
 						he.openInventory(inv);
-					}
+					
 			}
 		}
 	}

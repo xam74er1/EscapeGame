@@ -36,7 +36,11 @@ commands:
    partydisband:
       description: suprime tout les joeur de la partie
    startsetting :
-      description: ajout d'un parametre au lancement de la game    
+      description: ajout d'un parametre au lancement de la game
+   setblockinventorykey:
+      description: set un block invetaire avec une clef 
+   setBlockInventoryCode:
+      description: set un block invetaire avec un code       
   
 permissions:
   runSQL:

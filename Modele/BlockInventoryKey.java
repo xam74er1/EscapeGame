@@ -6,6 +6,7 @@ import org.bukkit.inventory.Inventory;
 import BaseDeDonne.DAO_BlockInventory;
 import BaseDeDonne.DAO_BlockInventoryKey;
 import Utils.EG_Exception;
+import Utils.Log;
 
 public class BlockInventoryKey extends BlockInventory implements ClefInterface{
 	String keyName;
@@ -19,18 +20,25 @@ public class BlockInventoryKey extends BlockInventory implements ClefInterface{
 	}
 	
 	public BlockInventoryKey(BlockInventory binv) throws EG_Exception {
-		// TODO Auto-generated constructor stub
+		// On remplis liventaire parent 
 		super(binv.getId(),binv.getInv(),2,binv.getLocation().getId());
+		//On verifife si cette inventaire est bien un inv key
 		BlockInventoryKey bik = dao.find(binv);
-
+		//Si cest le cas on remplis avec les info recupere , si non on set son id a -1 pour dire quil n'existe pas
+		if(bik!=null) {
 			this.keyName = bik.keyName;
 			this.oppen = bik.isOppen();
+		}else {
+			this.id = -1;
+		}
 		
 	}
 	
 
 	public BlockInventoryKey(Block b , String key,boolean isOppen) throws Exception {
+		
 		super(2,b);
+		Log.print("papa cree on contine avec le fis");
 		this.keyName = key;
 		this.oppen = isOppen;
 		//Si il existe

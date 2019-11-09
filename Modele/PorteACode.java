@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-
+import org.bukkit.entity.Player;
 import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
@@ -13,6 +13,8 @@ import BaseDeDonne.DAO_EG_Location;
 import BaseDeDonne.DAO_PorteACode;
 import Utils.EG_Exception;
 import Utils.Log;
+import fr.xam74er1.spigot.Main;
+import net.md_5.bungee.api.ChatColor;
 
 public class PorteACode extends Ellement implements CodeInterface{
 
@@ -332,11 +334,38 @@ public class PorteACode extends Ellement implements CodeInterface{
 	}
 
 
+
+
+
 	@Override
-	public void getOppen() {
+	public void action_if_correct(Player p) {
 		// TODO Auto-generated method stub
-		
+		p.sendMessage(ChatColor.GREEN+"La porte est ouverte");
+		action_allaw(p);
 	}
+
+
+	@Override
+	public void action_if_not_corect(Player p) {
+		// TODO Auto-generated method stub
+		p.sendMessage(ChatColor.RED+"Le code est incorecte");
+		action_allaw(p);
+	}
+
+
+public void action_allaw(Player p) {
+	GamePlayer gp = Main.getGame().getPlayer(p.getName());
+	//Dans tout les cas on ouvre 
+	if(gp.getSelectBlock().getType()==Material.IRON_DOOR) {
+		this.setB(gp.getSelectBlock());
+	}else {
+	
+		Block b = p.getWorld().getBlockAt(loc.getX(),loc.getY(),loc.getZ());
+		this.setB(b);
+	}
+
+	this.setOppen(code_corect());
+}
 
 
 
