@@ -3,6 +3,7 @@ package BaseDeDonne;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import Modele.EG_Loccation;
 import Modele.PorteAClef;
 import Modele.PorteACode;
 import Utils.EG_Exception;
@@ -31,8 +32,35 @@ public class DAO_PorteAClef extends DAO<PorteAClef>{
 
 	@Override
 	public boolean delete(PorteAClef obj) {
-		// TODO Auto-generated method stub
-		return false;
+		int  rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE id = "+obj.getId() );
+			if(rs ==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean delete(EG_Loccation obj) {
+		int rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE LocID = "+obj.getId() );
+			if(rs==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override

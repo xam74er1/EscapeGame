@@ -32,8 +32,36 @@ public class DAO_PorteACode  extends DAO<PorteACode>{
 
 	@Override
 	public boolean delete(PorteACode obj) {
-		// TODO Auto-generated method stub
-		return false;
+
+		int  rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE id = "+obj.getId() );
+			if(rs ==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean delete(EG_Loccation obj) {
+		int rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE LocID = "+obj.getId() );
+			if(rs==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override

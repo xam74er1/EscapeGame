@@ -67,6 +67,8 @@ public class cmdsetGameTime implements CommandExecutor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+
 
 	public void help() {
 		Log.displayError(p, "/setGameTime h:min:sec \n cette commande sert a definir le temps de la game  \n ex : /setGameTime 1h \n ex : /setGameTime 1h:42m:10s");

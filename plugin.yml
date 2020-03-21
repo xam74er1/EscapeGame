@@ -9,9 +9,11 @@ commands:
     description: Utilise pour interagie de manire operateur avec le systeme
    setCodeDoor:
     description: Met une porte a code
+    aliases: [setdoorcode]
    setKeyDoor:
     description: Met une porte a clef
-   blockInventory:
+    aliases: [setdoorkey]
+   setblockInventory:
      description: Cree un block inventaire
    newGame:
      description: Cree une nouvelle game
@@ -19,18 +21,21 @@ commands:
      description: Modifie une option a la game
    setGameTime:
      description: Set le temps de la game
+     aliases: [gametime]
    GameList:
      description: List tout les game disponible
    loadGame:
      description: charge une game
    gamemanager:
      description: manage la game en cour
+     aliases: [game]
    gameStart:
      description: lance la game
    partyadd:
       description: ajoute une perssone a la partie
    party:
-      description: Gestion des partie 
+      description: Gestion des partie
+      aliases: [p] 
    partyremove:
       description: remouve une perssone
    partydisband:
@@ -40,7 +45,11 @@ commands:
    setblockinventorykey:
       description: set un block invetaire avec une clef 
    setBlockInventoryCode:
-      description: set un block invetaire avec un code       
+      description: set un block invetaire avec un code
+   deleteBlock:
+      description: enelve un block place
+   gameinfo:
+      description: donne des information sur la game en cour                
   
 permissions:
   runSQL:

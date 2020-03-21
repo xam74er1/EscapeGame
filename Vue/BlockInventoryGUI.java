@@ -24,7 +24,7 @@ public class BlockInventoryGUI {
 		Log.print("BlockInventoryGUI");
 		//On recupere parmis tt les inventaire qui existe linventory en cour 
 		//cela evite de duplique les object et permet de connecte les inventaire entre eux 
-		BlockInventory enCour = Main.getGame().findOrAdd(binv);
+		BlockInventory enCour = Main.getGame().findOrAddBlockInventory(binv);
 		// TODO Auto-generated constructor stub
 		Log.print("Ouverture de bliock inventory GUI pour le block d'id "+enCour.getId());
 		p.openInventory(enCour.getInventory());
@@ -37,7 +37,7 @@ public class BlockInventoryGUI {
 		//On recure la paorte a code
 		Ellement el = gp.getEllement();
 
-		Inventory inv = e.getInventory();
+		//Inventory inv = e.getInventory();
 
 
 
@@ -48,18 +48,22 @@ public class BlockInventoryGUI {
 		}
 
 		//On recupere le block inventory en question 
-		BlockInventory binv = Main.getGame().findOrAdd((BlockInventory) el);
-
+		BlockInventory binv = Main.getGame().findOrAddBlockInventory((BlockInventory) el);
+		Inventory inv = binv.getInv();
 
 		ItemStack it = e.getCurrentItem();
 
 
-
+/*
 		if(it==null) {
-
+			for(int i = 0 ;i<inv.getSize();i++) {
+				Log.print(inv.getItem(i)+"");
+			}
 
 			binv.setInv(inv);
-
+			
+			
+		
 
 		}else {
 			Inventory tmp = Bukkit.createInventory(null, inv.getSize(),e.getView().getTitle());
@@ -71,8 +75,15 @@ public class BlockInventoryGUI {
 			tmp.setItem(slot, it);
 			binv.setInv(tmp);
 		}
-
+*/
+		
+		for(int i = 0 ;i<inv.getSize();i++) {
+			inv.setItem(i, e.getInventory().getItem(i));
+		
+		}
 		Update(binv.getInv(),p);
+
+	
 
 
 	}
@@ -103,32 +114,23 @@ public class BlockInventoryGUI {
 		BlockInventory binv = (BlockInventory) el;
 
 
-
-
-
-
 		binv.setInv(inv);
 
-		Update(binv.getInv(),p);
-
-		
-
-
-
-
+		//Update(binv.getInv(),p);
 
 	}
 
 	public static void Update(Inventory inv,Player p) {
 		List<HumanEntity> list =	inv.getViewers();
-
+Log.print("List des perssone qui regarde cette inventaire "+list);
 		if(list.size()>1) {
 			for(HumanEntity he: list) {
-			
-		
-						he.closeInventory();
-						he.openInventory(inv);
-					
+				Log.print("ouverture de "+he.getName());
+				//if(!p.getName().equalsIgnoreCase(he.getName())) {
+					he.closeInventory();
+					he.openInventory(inv);
+
+				//}
 			}
 		}
 	}

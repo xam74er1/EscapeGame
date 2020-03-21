@@ -55,6 +55,7 @@ public class BlockInventoryCode extends BlockInventory implements CodeInterface{
 		if(bik!=null) {
 			dao.update(this);
 		}else {
+			Log.print("Avant inste ds le Block inventory id ="+id);
 			dao.insert(this);
 		}
 

@@ -20,17 +20,18 @@ import net.minecraft.server.v1_14_R1.BossBattle.BarColor;
 
 public class Game {
 
-	boolean inDev = true;
-
+	boolean inDev = false;
+boolean createNewGame = false;
 	String name;
 	String description;
 
 	int time = 3600;//En seconde
 
-	HashMap<String,GamePlayer> listPlayer ;
-	HashMap<String,GamePlayer> listParty ;
+	HashMap<String,GamePlayer> listPlayer =null;
+	HashMap<String,GamePlayer> listParty = null ;
 	ArrayList<ActionInGame> listAction = new ArrayList<ActionInGame>();
 	ArrayList<BlockInventory> listInventory = new ArrayList<BlockInventory>();
+	boolean selected = false;
 
 	CronoMetre crono = null;
 
@@ -69,9 +70,90 @@ public class Game {
 		}
 
 	}
+	
+	public Game(String name,String description) throws Exception {
+		if(dao==null)
+			dao= new DAO_Game();
+		Game tmp = dao.find(name);
+		if(tmp!=null) {
+			this.id = tmp.id;
+			this.name = name;
+			this.description = description;
+			this.time = tmp.time;
+			this.listAction = tmp.listAction;
+
+			listPlayer = new HashMap<String, GamePlayer>();
+			listParty = new HashMap<String, GamePlayer>();
+
+			addAllPlayer();
+			dao.update(this);
+		}else {
+			this.name = name;
+			this.description = description;
+			try {
+				this.id = dao.getMaxID(dao.getTableName())+1;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			listPlayer = new HashMap<String, GamePlayer>();
+			listParty = new HashMap<String, GamePlayer>();
+			
+			
+			addAllPlayer();
+			
+			dao.insert(this);
+		}
+
+	}
+	
+	
+	public Game(String name,String description,int time) throws Exception {
+		if(dao==null)
+			dao= new DAO_Game();
+		Game tmp = dao.find(name);
+		if(tmp!=null) {
+			this.id = tmp.id;
+			this.name = name;
+			this.description = description;
+			this.time = time;
+			this.listAction = tmp.listAction;
+
+			listPlayer = new HashMap<String, GamePlayer>();
+			listParty = new HashMap<String, GamePlayer>();
+
+			addAllPlayer();
+			dao.update(this);
+		}else {
+			this.name = name;
+			this.description = description;
+			this.time = time;
+			try {
+				this.id = dao.getMaxID(dao.getTableName())+1;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			listPlayer = new HashMap<String, GamePlayer>();
+			listParty = new HashMap<String, GamePlayer>();
+			
+			
+			addAllPlayer();
+			
+			dao.insert(this);
+		}
+
+	}
+	
+	
+	
 
 	//Pour le dao
-	public Game(int id,String name,int time, String description,String listAction) {
+	public Game(int id,String name,int time, String description,String listAction,int selected) {
 		super();
 		if(dao==null)
 			dao= new DAO_Game();
@@ -87,6 +169,7 @@ public class Game {
 		this.name = name;
 		this.description = description;
 		this.time = time;
+		this.selected = selected==1;
 		listPlayer = new HashMap<String, GamePlayer>();
 		addAllPlayer();
 
@@ -139,6 +222,11 @@ public class Game {
 	}
 
 	public boolean addPlayerParty(String name) {
+		
+		if(listParty == null) {
+			listParty = new HashMap<String, GamePlayer>();
+		}
+		
 		if(name.equalsIgnoreCase("all")) {
 
 			listParty.putAll(listPlayer);
@@ -270,9 +358,13 @@ public class Game {
 	public void displayAction(Player p) {
 		p.sendMessage(ChatColor.GOLD+" \n List des action : ");
 		int i  = 0;
+		if(listAction!=null&&!listAction.isEmpty()) {
 		for(ActionInGame ac : listAction) {
-			p.sendMessage(ChatColor.GOLD+""+i+ChatColor.RESET+" : "+ac.toString());
+			p.sendMessage(ChatColor.YELLOW+""+i+ChatColor.RESET+" : "+ac.toString());
 			i++;
+		}
+		}else {
+			p.sendMessage(ChatColor.RED+" La liste ne contien aucune action ! ");
 		}
 	}
 
@@ -336,11 +428,11 @@ public class Game {
 	}
 
 	//////////////////////Gestion des inventaire ////////////////////////
-	
+
 	//Le but est de trouve si un inv existe deja pour recupere son inventaire 
-	public BlockInventory findOrAdd(BlockInventory binv) {
+	public BlockInventory findOrAddBlockInventory(BlockInventory binv) {
 		BlockInventory tmp =null;
-		
+
 		//On les parcoure tous et on vois si il est identique (meme id)
 		for(BlockInventory bi : listInventory) {
 			if(bi.getId()==binv.getId()) {
@@ -348,18 +440,32 @@ public class Game {
 				break;
 			}
 		}
-		
+
 		if(tmp==null) {
 			listInventory.add(binv);
 			return binv;
 		}
 		return tmp;
-		
+
 	}
-	
-	
-	
-	
+
+	public void removeBlockInventory(BlockInventory binv) {
+		BlockInventory tmp =null;
+
+		//On les parcoure tous et on vois si il est identique (meme id)
+		for(BlockInventory bi : listInventory) {
+			if(bi.getId()==binv.getId()) {
+				tmp = bi;
+				break;
+			}
+		}
+		if(tmp!=null) {
+			listInventory.remove(tmp);
+		}
+
+	}
+
+
 	////////////////////////////////////////////
 
 	public boolean isInDev() {
@@ -479,6 +585,27 @@ public class Game {
 
 	public void setListInventory(ArrayList<BlockInventory> listInventory) {
 		this.listInventory = listInventory;
+	}
+
+	public boolean isCreateNewGame() {
+		return createNewGame;
+	}
+
+	public void setCreateNewGame(boolean createNewGame) {
+		this.createNewGame = createNewGame;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+		if(dao!=null) {
+			dao.update(this);
+		}else {
+			Log.print("DAO NULL");
+		}
 	}
 
 

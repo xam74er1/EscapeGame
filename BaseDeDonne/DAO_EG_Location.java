@@ -36,8 +36,35 @@ public class DAO_EG_Location extends DAO<EG_Loccation>{
 	@Override
 	public boolean delete(EG_Loccation obj) {
 		// TODO Auto-generated method stub
-		return false;
+
+		//Si il y en a un qui cest bien passe on validera 
+		boolean ok = false;
+
+		//ON commence par delete dans toute les table ou il peux etre reference 
+
+
+
+		ok = ok|| new DAO_PorteAClef().delete(obj);
+		ok = ok|| new DAO_PorteACode().delete(obj);
+		ok = ok|| new DAO_BlockInventory().delete(obj);
+
+		Log.print("on a pus en delete au moin un avant  : "+ok);
+		int rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE id = "+obj.getId() );
+			if(rs==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
+
+
 
 	@Override
 	public int update(EG_Loccation obj) {

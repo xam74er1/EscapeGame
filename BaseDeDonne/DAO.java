@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 import Modele.EG_Loccation;
 import Utils.Log;
@@ -16,10 +17,11 @@ import Utils.Log;
 public abstract class DAO<T> {
 	static String path;
 	static Connection connextion ;
+	
 
 
 	public DAO() {
-
+	
 	}
 
 	public void connect(String path) {

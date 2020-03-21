@@ -38,9 +38,21 @@ public class DAO_BlockInventoryKey extends  DAO_BlockInventory{
 	}
 
 	@Override
-	public boolean delete(BlockInventory obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(BlockInventory obj) {	
+
+		int  rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE id = "+obj.getId() );
+			if(rs ==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override

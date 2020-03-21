@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 
 import Modele.BlockInventory;
 import Modele.BlockInventoryCode;
+import Modele.PorteACode;
 import Utils.EG_Exception;
 import Utils.Log;
 
@@ -39,9 +40,22 @@ public class DAO_BlockInventoryCode extends  DAO_BlockInventory{
 	}
 
 	@Override
-	public boolean delete(BlockInventory obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(BlockInventory obj) {	
+
+
+		int  rs;
+		try {
+			rs = exeUpdate("DELETE FROM "+tableName+" WHERE id = "+obj.getId() );
+			if(rs ==0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override

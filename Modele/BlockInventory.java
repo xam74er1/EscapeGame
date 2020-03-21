@@ -90,6 +90,7 @@ public class BlockInventory extends Ellement implements InventoryHolder{
 			try {
 				this.inv = CreateInv();
 				this.type=type;
+				this.id = dao.getMaxID(dao.getTableName())+1;
 				dao.insert(this);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
